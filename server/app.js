@@ -16,25 +16,16 @@ app.use(cors());
 const port = process.env.PORT || 4000;
 
 const checkToken = async (req) => {
-  let access_token;
-  if (req.session.access_token && Date.now() < req.session.expires_at) {
-    access_token = req.session.access_token;
-  } else {
-    let dsApiClient = new docusign.ApiClient();
-    dsApiClient.setBasePath(process.env.BASE_PATH);
-    const results = await dsApiClient.requestJWTUserToken(
-      process.env.INTEGRATION_KEY,
-      process.env.USER_ID,
-      "signature",
-      fs.readFileSync("./private.key"),
-      3600
-    );
-    req.session.access_token = results.body.access_token;
-    req.session.expires_at = Date.now() + (results.body.expires_in - 60) * 1000;
-    access_token = results.body.access_token;
-  }
-
-  return access_token;
+  let dsApiClient = new docusign.ApiClient();
+  dsApiClient.setBasePath(process.env.BASE_PATH);
+  const results = await dsApiClient.requestJWTUserToken(
+    process.env.INTEGRATION_KEY,
+    process.env.USER_ID,
+    "signature",
+    fs.readFileSync("./private.key"),
+    3600
+  );
+  return results.body.access_token;
 };
 
 const getEnvelopesAPI = (access_token) => {
@@ -124,6 +115,7 @@ app.get("/callback", async (req, res) => {
 app.get("/templates", async (req, res) => {
   try {
     const access_token = await checkToken(req);
+
     const response = await axios.get(
       `https://demo.docusign.net/restapi/v2.1/accounts/${process.env.ACCOUNT_ID}/templates`,
       {
