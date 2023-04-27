@@ -8,7 +8,7 @@ const Templates = () => {
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/templates");
+        const response = await axios.get("https://docusign-service.onrender.com/templates");
         setTemplates(response.data.templates);
       } catch (err) {
         console.log(err);

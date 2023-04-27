@@ -15,7 +15,7 @@ app.use(cors());
 
 const port = process.env.PORT || 4000;
 
-const checkToken = async (req) => {
+const getToken = async (req) => {
   let dsApiClient = new docusign.ApiClient();
   dsApiClient.setBasePath(process.env.BASE_PATH);
   const results = await dsApiClient.requestJWTUserToken(
@@ -114,7 +114,7 @@ app.get("/callback", async (req, res) => {
 
 app.get("/templates", async (req, res) => {
   try {
-    const access_token = await checkToken(req);
+    const access_token = await getToken(req);
 
     const response = await axios.get(
       `https://demo.docusign.net/restapi/v2.1/accounts/${process.env.ACCOUNT_ID}/templates`,

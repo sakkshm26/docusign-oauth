@@ -20,7 +20,7 @@ const Form = () => {
       "base64"
     );
     window.location.replace(
-      `https://account-d.docusign.com/oauth/auth?response_type=code&scope=signature%20impersonation&client_id=48640638-333c-4258-96ce-a035cf041261&redirect_uri=http://localhost:4000/callback&state=${encodedFormData}`
+      `https://account-d.docusign.com/oauth/auth?response_type=code&scope=signature%20impersonation&client_id=48640638-333c-4258-96ce-a035cf041261&redirect_uri=https://docusign-service.onrender.com/callback&state=${encodedFormData}`
     );
   };
 
