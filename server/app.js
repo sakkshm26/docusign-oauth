@@ -104,7 +104,7 @@ app.get("/callback", async (req, res) => {
     });
 
     res.send(
-      "<h2>You have received the document on the email you entered!</h2>"
+      "<h2>The document is shared to the email successfully!</h2>"
     );
   } catch (err) {
     console.log(err);
